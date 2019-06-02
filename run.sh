@@ -11,7 +11,10 @@ S3PATH=${S3PATH:?"S3_PATH required"}
 ENCRYPT_KEY=${ENCRYPT_KEY:?"ENCRYPT_KEY required"}
 
 CRON_SCHEDULE=${CRON_SCHEDULE:-0 * * * *}
-S3CMDPARAMS=${S3CMDPARAMS}
+
+#echo "[Credentials]" > /root/.boto
+#echo "aws_access_key_id = $ACCESS_KEY" >> /root/.boto
+#echo "aws_secret_access_key = $SECRET_KEY" >> /root/.boto
 
 LOCKFILE="/tmp/duplicity.lock"
 LOG="/var/log/cron.log"
@@ -48,8 +51,9 @@ elif [[ $OPTION = "backup" ]]; then
     touch $LOCKFILE
   fi
 
-  echo "Executing /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data --s3-use-new-style $S3PATH --archive-dir /archive" | tee -a $LOG
-  /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data --s3-use-new-style $S3PATH --archive-dir /archive
+
+  echo "Executing AWS_ACCESS_KEY=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY  /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data --s3-use-new-style $S3PATH --archive-dir /archive" | tee -a $LOG
+  AWS_ACCESS_KEY=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data --s3-use-new-style $S3PATH --archive-dir /archive
   #/usr/local/bin/s3cmd sync $S3CMDPARAMS /data/ $S3PATH 2>&1 | tee -a $LOG
   rm -f $LOCKFILE
   echo "Finished: $(date)" | tee -a $LOG
