@@ -53,8 +53,8 @@ elif [[ $OPTION = "backup" ]]; then
   fi
 
 
-  echo "Executing AWS_ACCESS_KEY=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY  /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data --s3-use-new-style $S3PATH --archive-dir /archive" | tee -a $LOG
-  /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data --s3-use-new-style $S3PATH --archive-dir /archive
+  echo "Executing /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data --s3-use-new-style $S3PATH --archive-dir /archive" | tee -a $LOG
+  /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data $S3PATH --archive-dir /archive
   #/usr/local/bin/s3cmd sync $S3CMDPARAMS /data/ $S3PATH 2>&1 | tee -a $LOG
   rm -f $LOCKFILE
   echo "Finished: $(date)" | tee -a $LOG
