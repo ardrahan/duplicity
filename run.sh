@@ -12,9 +12,7 @@ S3PATH=${S3PATH:?"S3_PATH required"}
 
 # GPG info
 GPG_ENCRYPT_KEY=${GPG_ENCRYPT_KEY:?"GPG_ENCRYPT_KEY required"}
-GPG_ENCRYPT_KEY_FILE=${GPG_ENCRYPT_KEY_FILE:?"GPG_ENCRYPT_KEY_FILE required"}
 GPG_SIGN_KEY=${GPG_SIGN_KEY:?"GPG_SIGN_KEY required"}
-GPG_SIGN_KEY_FILE=${GPG_SIGN_KEY_FILE:?"GPG_SIGN_KEY_FILE required"}
 PASSPHRASE=${PASSPHRASE:?"PASSPHRASE required"}
 SIGN_PASSPHRASE=${SIGN_PASSPHRASE:?"SIGN_PASSPHRASE required"}
 
@@ -32,7 +30,7 @@ if [ ! -e $LOG ]; then
 fi
 
 if [[ $OPTION = "start" ]]; then
-  gpg --batch --import $GPG_SIGN_KEY_FILE $GPG_ENCRYPT_KEY_FILE
+  gpg --batch --import /keys/enc.key /keys/sign.key
 
   CRONFILE="/etc/cron.d/duplicity"
   CRONENV=""
