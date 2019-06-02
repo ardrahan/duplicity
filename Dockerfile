@@ -11,6 +11,7 @@ RUN apt-get update && \
 RUN mkdir -p /data
 
 ADD run.sh /
+RUN chmod a+x /run.sh
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start"]
