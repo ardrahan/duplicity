@@ -10,7 +10,8 @@ SECRET_KEY=${SECRET_KEY:?"SECRET_KEY required"}
 S3PATH=${S3PATH:?"S3_PATH required"}
 GPG_ENCRYPT_KEY=${GPG_ENCRYPT_KEY:?"GPG_ENCRYPT_KEY required"}
 GPG_SIGN_KEY=${GPG_SIGN_KEY:?"GPG_SIGN_KEY required"}
-GPG_SIGN_KEY_PASSPHRASE=${GPG_SIGN_KEY_PASSPHRASE:?"GPG_SIGN_KEY_PASSPHRASE required"}
+PASSPHRASE=${PASSPHRASE:?"PASSPHRASE required"}
+SIGN_PASSPHRASE=${SIGN_PASSPHRASE:?"SIGN_PASSPHRASE required"}
 
 CRON_SCHEDULE=${CRON_SCHEDULE:-0 * * * *}
 
@@ -54,7 +55,7 @@ elif [[ $OPTION = "backup" ]]; then
   fi
 
 
-  echo "Executing /usr/bin/duplicity --encrypt-key $ENCRYPT_KEY --sign-key $ENCRYPT_KEY --volsize 100 /data $S3PATH --archive-dir /archive" | tee -a $LOG
+  echo "Executing /usr/bin/duplicity --encrypt-key $GPG_ENCRYPT_KEY --sign-key $GPG_SIGN_KEY /data $S3PATH --archive-dir /archive --allow-source-mismatch" | tee -a $LOG
   /usr/bin/duplicity --encrypt-key $GPG_ENCRYPT_KEY --sign-key $GPG_SIGN_KEY /data $S3PATH --archive-dir /archive --allow-source-mismatch
   #/usr/local/bin/s3cmd sync $S3CMDPARAMS /data/ $S3PATH 2>&1 | tee -a $LOG
   rm -f $LOCKFILE
