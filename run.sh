@@ -48,7 +48,7 @@ if [[ $OPTION = "start" ]]; then
   CRONENV="$CRONENV PASSPHRASE=$PASSPHRASE"
   CRONENV="$CRONENV SIGN_PASSPHRASE=$SIGN_PASSPHRASE"
   CRONENV="$CRONENV DUPLICITY_OPTIONS='$DUPLICITY_OPTIONS'"
-  echo "$CRON_SCHEDULE root $CRONENV bash /run.sh backup" >> $CRONFILE
+  echo "$CRON_SCHEDULE root $CRONENV /bin/bash /run.sh backup" >> $CRONFILE
 
   echo "Starting CRON scheduler: $(date)"
   cron
