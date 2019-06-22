@@ -40,7 +40,7 @@ if [[ $OPTION = "start" ]]; then
   echo "Directories =" `/usr/bin/find /data -type d | wc -l`
   echo "Files       =" `/usr/bin/find /data -type f | wc -l`
   echo
-  ls -F /data | head -20
+  ls -F /data 
   echo "..."
   echo
 
