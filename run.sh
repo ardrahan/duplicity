@@ -41,13 +41,17 @@ if [[ $OPTION = "start" ]]; then
   echo
 
   echo "Adding CRON schedule: $CRON_SCHEDULE"
-  CRONENV="$CRONENV ACCESS_KEY=$ACCESS_KEY"
-  CRONENV="$CRONENV SECRET_KEY=$SECRET_KEY"
+  # Params needed directly by backup stage
   CRONENV="$CRONENV GPG_ENCRYPT_KEY=$GPG_ENCRYPT_KEY"
   CRONENV="$CRONENV GPG_SIGN_KEY=$GPG_SIGN_KEY"
+  CRONENV="$CRONENV S3PATH=$S3PATH"
+  CRONENV="$CRONENV DUPLICITY_OPTIONS=\"$DUPLICITY_OPTIONS\""
+  # Params needed indirectly by backup stage
+  CRONENV="$CRONENV ACCESS_KEY=$ACCESS_KEY"
+  CRONENV="$CRONENV SECRET_KEY=$SECRET_KEY"
   CRONENV="$CRONENV PASSPHRASE=$PASSPHRASE"
   CRONENV="$CRONENV SIGN_PASSPHRASE=$SIGN_PASSPHRASE"
-  CRONENV="$CRONENV DUPLICITY_OPTIONS='$DUPLICITY_OPTIONS'"
+  
   echo "$CRON_SCHEDULE root $CRONENV /bin/bash /run.sh backup" >> $CRONFILE
 
   echo "Starting CRON scheduler: $(date)"
@@ -66,8 +70,9 @@ elif [[ $OPTION = "backup" ]]; then
 
 
   echo "Executing /usr/bin/duplicity --encrypt-key $GPG_ENCRYPT_KEY --sign-key $GPG_SIGN_KEY /data $S3PATH --archive-dir /archive --allow-source-mismatch --gpg-options '--trust-model always' --log-file $LOG $DUPLICITY_OPTIONS"| tee -a $LOG
+
   /usr/bin/duplicity --encrypt-key $GPG_ENCRYPT_KEY --sign-key $GPG_SIGN_KEY /data $S3PATH --archive-dir /archive --allow-source-mismatch --gpg-options "--trust-model always" --log-file $LOG $DUPLICITY_OPTIONS
-  #/usr/local/bin/s3cmd sync $S3CMDPARAMS /data/ $S3PATH 2>&1 | tee -a $LOG
+
   rm -f $LOCKFILE
   echo "Finished: $(date)" | tee -a $LOG
 
