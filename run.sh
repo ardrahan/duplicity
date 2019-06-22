@@ -39,8 +39,9 @@ if [[ $OPTION = "start" ]]; then
   echo
   echo "Directories =" `/usr/bin/find /data -type d | wc -l`
   echo "Files       =" `/usr/bin/find /data -type f | wc -l`
-  echo "First 20    ="
+  echo
   ls -F /data | head -20
+  echo "..."
   echo
 
   echo "Adding CRON schedule: $CRON_SCHEDULE"
@@ -59,7 +60,8 @@ if [[ $OPTION = "start" ]]; then
 
   echo "Starting CRON scheduler: $(date)"
   cron
-  exec tail -f $LOG 2> /dev/null
+  exec tail -f $LOG 
+  #2> /dev/null
 
 elif [[ $OPTION = "backup" ]]; then
   echo "Starting duplicity sync: $(date)" | tee $LOG
