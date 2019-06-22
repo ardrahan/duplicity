@@ -37,7 +37,10 @@ if [[ $OPTION = "start" ]]; then
 
   echo "Found the following files and directores mounted under /data:"
   echo
-  ls -F /data
+  echo "Directories =" `/usr/bin/find /data -type d | wc -l`
+  echo "Files       =" `/usr/bin/find /data -type f | wc -l`
+  echo "First 20    ="
+  ls -F /data | head -20
   echo
 
   echo "Adding CRON schedule: $CRON_SCHEDULE"
