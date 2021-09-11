@@ -3,9 +3,11 @@ MAINTAINER Chris Robertson <dev@asd.org>
 
 ENV DEBIAN_FRONTEND="noninteractive" HOME="/root" LC_ALL="C.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8"
 
+RUN apt-get update && apt-get install -y apt-transport-https
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-      apt-transport-https cron gpg duplicity python-pip && \
+      cron gpg duplicity python-pip && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install boto && \
