@@ -3,7 +3,7 @@ MAINTAINER Chris Robertson <dev@asd.org>
 
 ENV DEBIAN_FRONTEND="noninteractive" HOME="/root" LC_ALL="C.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8"
 
-RUN apt-get update && apt-get install -y apt-transport-https
+RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
