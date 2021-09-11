@@ -25,6 +25,8 @@ echo "aws_secret_access_key = $SECRET_KEY" >> /root/.boto
 LOCKFILE="/tmp/duplicity.lock"
 LOG="/var/log/cron.log"
 
+trap "rm -f $LOCKFILE" EXIT
+
 if [ ! -e $LOG ]; then
   touch $LOG
 fi
