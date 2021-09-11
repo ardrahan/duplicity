@@ -3,7 +3,25 @@ MAINTAINER Chris Robertson <dev@asd.org>
 
 ENV DEBIAN_FRONTEND="noninteractive" HOME="/root" LC_ALL="C.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8"
 
-RUN apt-get update
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      cron && \
+      rm -rf /var/lib/apt/lists/*
+    
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+       gpg && \
+    rm -rf /var/lib/apt/lists/*
+    
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      duplicity && \
+    rm -rf /var/lib/apt/lists/*
+    
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      python-pip && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
